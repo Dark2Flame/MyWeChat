@@ -1,0 +1,4 @@
+# 忽略所有文件，除了.h、.cpp和CMakeLists.txt
+**/cmake-build-debug/
+**/cmake-build-msvc/
+**/.idea/

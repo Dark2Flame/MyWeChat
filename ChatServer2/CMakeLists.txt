@@ -1,0 +1,169 @@
+cmake_minimum_required(VERSION 3.29)
+project(ChatServer_2)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(.)
+
+add_executable(ChatServer_2
+    AsioIOServicePool.cpp
+    AsioIOServicePool.h
+    ChatGrpcClient.cpp
+    ChatGrpcClient.h
+    ChatServiceImpl.cpp
+    ChatServiceImpl.h
+    ConfigMgr.cpp
+    ConfigMgr.h
+    const.h
+    data.h
+    LogicSystem.cpp
+    LogicSystem.h
+    main.cpp
+    message.grpc.pb.cc
+    message.grpc.pb.h
+    message.pb.cc
+    message.pb.h
+    MsgNode.cpp
+    MsgNode.h
+    MysqlConPool.cpp
+    MysqlConPool.h
+    MysqlDao.cpp
+    MysqlDao.h
+    MysqlMgr.cpp
+    MysqlMgr.h
+    RedisMgr.cpp
+    RedisMgr.h
+    Server.cpp
+    Server.h
+    Session.cpp
+    Session.h
+    Singleton.h
+    StatusGrpcClient.cpp
+    StatusGrpcClient.h
+    UserMgr.cpp
+    UserMgr.h
+        main.cpp)
+
+include_directories(D:/Qt_code/C++_Soft/boost)
+
+include_directories(D:/Qt_code/C++_Soft/mysql-connector-c++-8.0.28-winx64/include)
+include_directories(D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/include)
+include_directories(D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/third_party/re2)
+include_directories(D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/third_party/address_sorting/include)
+include_directories(D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/third_party/abseil-cpp)
+include_directories(D:/Qt_code/C++_Soft/libjson/include)
+include_directories(D:/Qt_code/C++_Soft/redis-3.0/deps/hiredis)
+include_directories(D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/third_party/protobuf/src/google)
+include_directories(D:/Qt_code/C++_Soft/libjson/include)
+
+set(GRPC_LIBS
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/re2/Debug/re2.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/base/Debug/absl_base.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/base/Debug/absl_exponential_biased.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/base/Debug/absl_log_severity.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/base/Debug/absl_malloc_internal.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/base/Debug/absl_periodic_sampler.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/base/Debug/absl_raw_logging_internal.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/base/Debug/absl_scoped_set_env.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/base/Debug/absl_spinlock_wait.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/base/Debug/absl_strerror.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/base/Debug/absl_throw_delegate.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/container/Debug/absl_hashtablez_sampler.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/container/Debug/absl_raw_hash_set.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/debugging/Debug/absl_debugging_internal.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/debugging/Debug/absl_demangle_internal.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/debugging/Debug/absl_examine_stack.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/debugging/Debug/absl_failure_signal_handler.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/debugging/Debug/absl_leak_check.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/debugging/Debug/absl_leak_check_disable.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/debugging/Debug/absl_stacktrace.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/debugging/Debug/absl_symbolize.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags_commandlineflag.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags_commandlineflag_internal.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags_config.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags_internal.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags_marshalling.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags_parse.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags_private_handle_accessor.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags_program_name.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags_reflection.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags_usage.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/flags/Debug/absl_flags_usage_internal.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/hash/Debug/absl_city.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/hash/Debug/absl_hash.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/numeric/Debug/absl_int128.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/random/Debug/absl_random_distributions.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/random/Debug/absl_random_internal_distribution_test_util.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/random/Debug/absl_random_internal_platform.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/random/Debug/absl_random_internal_pool_urbg.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/random/Debug/absl_random_internal_randen.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/random/Debug/absl_random_internal_randen_hwaes.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/random/Debug/absl_random_internal_randen_hwaes_impl.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/random/Debug/absl_random_internal_randen_slow.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/random/Debug/absl_random_internal_seed_material.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/random/Debug/absl_random_seed_gen_exception.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/random/Debug/absl_random_seed_sequences.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/status/Debug/absl_status.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/status/Debug/absl_statusor.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/strings/Debug/absl_cord.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/strings/Debug/absl_strings.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/strings/Debug/absl_strings_internal.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/strings/Debug/absl_str_format_internal.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/synchronization/Debug/absl_graphcycles_internal.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/synchronization/Debug/absl_synchronization.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/time/Debug/absl_civil_time.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/time/Debug/absl_time.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/time/Debug/absl_time_zone.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/types/Debug/absl_bad_any_cast_impl.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/types/Debug/absl_bad_optional_access.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/abseil-cpp/absl/types/Debug/absl_bad_variant_access.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/zlib/Debug/zlibd.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/zlib/Debug/zlibstaticd.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/address_sorting.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/gpr.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/grpc++.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/grpc++_alts.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/grpc++_error_details.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/grpc++_reflection.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/grpc++_unsecure.lib
+        #        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/grpc.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/grpcpp_channelz.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/grpc_csharp_ext.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/grpc_plugin_support.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/grpc_unsecure.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/Debug/upb.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/cares/cares/lib/Debug/cares.lib
+        D:/Qt_code/C++_Soft/gRPC/grpc/grpc0/visualpro/third_party/protobuf/Debug/libprotobufd.lib
+)
+set(MYSQL_CONNECTOR_LIBS
+        D:/Qt_code/C++_Soft/Redis_src/lib/hiredis.lib
+        D:/Qt_code/C++_Soft/Redis_src/lib/Win32_Interop.lib
+        D:/Qt_code/C++_Soft/mysql-connector-c++-8.0.28-winx64/lib64/vs14/libcrypto.lib
+        D:/Qt_code/C++_Soft/mysql-connector-c++-8.0.28-winx64/lib64/vs14/libssl.lib
+        D:/Qt_code/C++_Soft/mysql-connector-c++-8.0.28-winx64/lib64/vs14/debug/mysqlcppconn.lib
+        D:/Qt_code/C++_Soft/mysql-connector-c++-8.0.28-winx64/lib64/vs14/debug/mysqlcppconn8.lib
+        #        D:/Qt_code/C++_Soft/mysql-connector-c++-8.0.28-winx64/lib64/vs14/debug/mysqlcppconn8-static.lib
+        D:/Qt_code/C++_Soft/mysql-connector-c++-8.0.28-winx64/lib64/vs14/debug/mysqlcppconn-static.lib
+)
+set(MY_PROTOBUF_LIBS
+#        D:/Qt_code/C++_Soft/protoc/bin/libprotobufd.lib
+#        D:/Qt_code/C++_Soft/protoc/bin/libprotocd.lib
+)
+set(BOOST_LIBS
+        D:/Qt_code/C++_Soft/boost_1_85_0/stage/lib/libboost_filesystem-vc143-mt-gd-x64-1_85.lib
+)
+set(JSONCPP_LIBS
+        D:/Qt_code/C++_Soft/libjson/lib/jsoncpp.lib
+)
+
+link_libraries(lib)
+target_link_libraries(ChatServer_2
+        ${BOOST_LIBS}
+        ${MY_PROTOBUF_LIBS}
+        ${MYSQL_CONNECTOR_LIBS}
+        ${GRPC_LIBS}
+        ${JSONCPP_LIBS}
+)
+
+
